@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiTrade API - Advanced Agentic AI Trading Tool</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #06B6D4; /* Cyan/Teal (Professional) */
+            --secondary-color: #8B5CF6; /* Violet */
+            --bg-dark: #1F2937; /* Dark Gray */
+            --text-light: #F9FAFB; /* Off-White */
+            --chart-bg: #111827; /* Darker Chart Background */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        .icon-box {
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        .icon-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.5), 0 4px 6px -2px rgba(6, 182, 212, 0.5);
+        }
+        .accent-text {
+            color: var(--primary-color);
+        }
+        .pill-button {
+            background-color: var(--primary-color);
+            transition: background-color 0.3s;
+        }
+        .pill-button:hover {
+            background-color: #0891B2; 
+        }
+        .infographic-line {
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        }
+        
+        .chart-card {
+            background-color: var(--chart-bg);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            border: 1px solid #374151;
+        }
+        /* Ensure all canvases adapt to the card size */
+        .chart-card canvas {
+            width: 100%;
+            height: 100px; /* Fixed height for consistent look */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Disclaimer Header -->
+    <div class="bg-red-600 text-white p-3 text-center font-bold text-sm sticky top-0 z-50 shadow-lg">
+        🚨 DISCLAIMER: This is not financial advice. This is technology utilizing agentic AI. Trading involves risk.
+    </div>
+
+    <!-- Hero Section -->
+    <header class="text-center py-16 md:py-24 px-6 gradient-bg">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">
+            PiTrade <span class="text-white">API</span>
+        </h1>
+        <p class="text-xl md:text-2xl font-light text-gray-100 max-w-4xl mx-auto mb-8">
+            Built by Data Scientists, for Professionals. <strong>Advanced Agentic AI Trading Bot API</strong>.
+        </p>
+        <p class="text-sm font-semibold italic text-gray-200 mt-6 max-w-3xl mx-auto">
+            Our technology provides AI-powered, self-execution algorithms to optimize trading signals in real-time.
+        </p>
+    </header>
+
+    <!-- New Section: Market Simulation Charts -->
+    <section class="py-16 px-6 bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-10">Live Market <span class="accent-text">Data Simulation</span></h2>
+            <p class="text-center text-gray-400 mb-8 max-w-3xl mx-auto">
+                Visually track the volatility of key global assets. Our Agentic AI continuously monitors and reacts to these dynamic, real-time movements.
+            </p>
+            
+            <!-- Grid for individual charts -->
+            <div id="chart-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                
+                <!-- Chart 1: Gold -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>Gold (XAU)</span>
+                        <span id="price-chart-gold" class="text-yellow-400 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-gold"></canvas>
+                </div>
+
+                <!-- Chart 2: Nasdaq -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>Nasdaq 100</span>
+                        <span id="price-chart-nasdaq" class="text-green-400 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-nasdaq"></canvas>
+                </div>
+
+                <!-- Chart 3: S&P500 -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>S&P 500</span>
+                        <span id="price-chart-sp500" class="text-blue-400 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-sp500"></canvas>
+                </div>
+
+                <!-- Chart 4: Dow Jones -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>Dow Jones</span>
+                        <span id="price-chart-dowjones" class="text-violet-400 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-dowjones"></canvas>
+                </div>
+
+                <!-- Chart 5: Japan Index -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>Japan Index (Nikkei)</span>
+                        <span id="price-chart-japan" class="text-red-400 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-japan"></canvas>
+                </div>
+
+                <!-- Chart 6: German Index -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>German Index (DAX)</span>
+                        <span id="price-chart-german" class="text-sky-300 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-german"></canvas>
+                </div>
+
+                <!-- Chart 7: Bitcoin -->
+                <div class="chart-card">
+                    <h3 class="text-lg font-semibold mb-1 flex justify-between items-center">
+                        <span>Bitcoin (BTC)</span>
+                        <span id="price-chart-bitcoin" class="text-orange-500 text-sm font-mono">--</span>
+                    </h3>
+                    <canvas id="chart-bitcoin"></canvas>
+                </div>
+                
+                <!-- Spacer/Call-to-Action Card for odd number of charts -->
+                <div class="chart-card flex items-center justify-center border-dashed border-gray-600 border-2">
+                    <p class="text-center text-gray-500 text-sm">
+                        <span class="text-primary-color font-bold">50+</span> Other Securities Tracked by AI
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: The Problem Statement -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">The <span class="accent-text">Challenges</span> Professionals Face</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Problem 1: Volatility & Expertise Gap -->
+                <div class="icon-box p-6 rounded-xl bg-gray-800 shadow-xl">
+                    <div class="text-4xl mb-4 accent-text">📊</div>
+                    <h3 class="text-xl font-semibold mb-3">Market Volatility & Time</h3>
+                    <p class="text-gray-400">Busy professionals lack the time and expertise needed for successful active trading in today's volatile financial markets.</p>
+                </div>
+                <!-- Problem 2: Lack of Reliable Tools -->
+                <div class="icon-box p-6 rounded-xl bg-gray-800 shadow-xl">
+                    <div class="text-4xl mb-4 accent-text">🤖</div>
+                    <h3 class="text-xl font-semibold mb-3">Algorithmic Tool Gap</h3>
+                    <p class="text-gray-400">Sophisticated, real-time algorithmic trading tools are often limited to institutional traders and complex platforms inaccessible to non-expert users, which is essential for successful active trading.</p>
+                </div>
+                <!-- Problem 3: High-Capital Individuals -->
+                <div class="icon-box p-6 rounded-xl bg-gray-800 shadow-xl">
+                    <div class="text-4xl mb-4 accent-text">💼</div>
+                    <h3 class="text-xl font-semibold mb-3">Portfolio Optimization</h3>
+                    <p class="text-gray-400">High-capital individuals (doctors, lawyers, executives) struggle to optimize their portfolios using passive or manual decision strategies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Solution (Updated for Technology Provider Role) -->
+    <section class="py-16 px-6 bg-gray-800">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4"><span class="accent-text">The Solution:</span> PiTrade API</h2>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-4">
+                We are a <strong>Technology Provider</strong>, offering a fully automated, high-accuracy trading tool. 
+            </p>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-10">
+                The PiTrade API ensures funds remain secure and under your full control within your own API-enabled brokerage account (e.g., Capital.com, Moomoo SG/HK, etc.). <strong>We do not accept or manage your money.</strong>
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-6 rounded-xl bg-gray-900 border-b-4 border-primary-color shadow-2xl">
+                    <div class="text-5xl mb-3">🧠</div>
+                    <h4 class="text-2xl font-semibold accent-text">Agentic AI Execution</h4>
+                    <p class="text-gray-400">AI-powered self-execution on market orders, optimizing trading signals with advanced algorithms.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-900 border-b-4 border-primary-color shadow-2xl">
+                    <div class="text-5xl mb-3">🔒</div>
+                    <h4 class="text-2xl font-semibold accent-text">Fund Security</h4>
+                    <p class="text-gray-400">Users retain full control of all fund deposits and withdrawals in their connected brokerage account.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-900 border-b-4 border-primary-color shadow-2xl">
+                    <div class="text-5xl mb-3">📈</div>
+                    <h4 class="text-2xl font-semibold accent-text">High Accuracy</h4>
+                    <p class="text-gray-400">Engineered for high predictive accuracy and success rates at managed risk levels.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-gray-900 border-b-4 border-primary-color shadow-2xl">
+                    <div class="text-5xl mb-3">⏱️</div>
+                    <h4 class="text-2xl font-semibold accent-text">Passive Income</h4>
+                    <p class="text-gray-400">Your alternative for a high-return passive income strategy without requiring deep market knowledge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: System Architecture (How It Works) -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">The <span class="accent-text">Engine</span> Under the Hood</h2>
+
+            <div class="flex flex-col items-center justify-center space-y-8">
+                
+                <!-- Step 1: Strategy Engine -->
+                <div class="flex items-center w-full max-w-xl bg-gray-800 p-6 rounded-xl shadow-2xl icon-box">
+                    <div class="w-16 h-16 text-4xl accent-text flex-shrink-0">⚙️</div>
+                    <div class="ml-6">
+                        <h3 class="text-2xl font-bold">Strategy Engine</h3>
+                        <p class="text-gray-400">Utilizes Predictive ML-based decision algorithms (News, Momentum, Reversal, Scalping, Grid Trading).</p>
+                    </div>
+                </div>
+
+                <div class="infographic-line w-0.5 h-10 bg-gradient-to-b from-primary-color to-secondary-color rounded-full"></div>
+
+                <!-- Step 2: Execution Layer -->
+                <div class="flex items-center w-full max-w-xl bg-gray-800 p-6 rounded-xl shadow-2xl icon-box">
+                    <div class="w-16 h-16 text-4xl accent-text flex-shrink-0">📡</div>
+                    <div class="ml-6">
+                        <h3 class="text-2xl font-bold">Execution Layer</h3>
+                        <p class="text-gray-400">RESTful API connection to your chosen brokerage platform for real-time order placement and self-execution.</p>
+                    </div>
+                </div>
+
+                <div class="infographic-line w-0.5 h-10 bg-gradient-to-b from-primary-color to-secondary-color rounded-full"></div>
+
+                <!-- Step 3: Risk Management -->
+                <div class="flex items-center w-full max-w-xl bg-gray-800 p-6 rounded-xl shadow-2xl icon-box">
+                    <div class="w-16 h-16 text-4xl accent-text flex-shrink-0">🛡️</div>
+                    <div class="ml-6">
+                        <h3 class="text-2xl font-bold">Risk Management</h3>
+                        <p class="text-gray-400">Integrated stop-loss, take-profit, and capital exposure control for managed risk trading.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Packages and Performance (Comparison Infographic) -->
+    <section class="py-16 px-6 gradient-bg">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-white">Recommended Portfolio & <span class="text-yellow-300">Risk Tiers</span></h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <!-- Tier 1: Beginner -->
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl border-t-8 border-primary-color">
+                    <h3 class="text-3xl font-extrabold mb-2 accent-text">BEGINNER</h3>
+                    <p class="text-gray-300 text-sm mb-6">Start your journey with managed trial parameters.</p>
+                    
+                    <div class="text-4xl font-bold mb-4 text-white">
+                        $10k - $50k <span class="text-lg font-normal block text-gray-400">Fund Allocation</span>
+                    </div>
+
+                    <ul class="space-y-3 text-gray-300 mb-6">
+                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> 1-Month Trial Period ($10k)</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> Risk Adjustment: $\approx 3-5\%$ per trade</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> Weekly Trading Summary</li>
+                    </ul>
+                    <a href="#contact" class="block text-center py-3 px-6 rounded-xl font-semibold text-white bg-primary-color hover:bg-pink-600 transition duration-300">Learn More</a>
+                </div>
+
+                <!-- Tier 2: Expert -->
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl border-t-8 border-yellow-400 scale-105">
+                    <h3 class="text-3xl font-extrabold mb-2 text-yellow-400">EXPERT</h3>
+                    <p class="text-gray-300 text-sm mb-6">For seasoned individuals seeking optimal performance.</p>
+                    
+                    <div class="text-5xl font-extrabold mb-4 text-white">
+                        $50k - $250k <span class="text-xl font-normal block text-gray-400">Fund Allocation</span>
+                    </div>
+
+                    <ul class="space-y-3 text-gray-300 mb-6">
+                        <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Risk Adjustment: $\approx 5\%$ per trade</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Weekly Profit-Share Payout</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Access to Full Securities List</li>
+                    </ul>
+                    <a href="#contact" class="block text-center py-4 px-6 rounded-xl font-bold text-gray-900 bg-yellow-400 hover:bg-yellow-300 transition duration-300">Inquire Now</a>
+                </div>
+
+                <!-- Tier 3: Corporate -->
+                <div class="bg-gray-900 p-8 rounded-2xl shadow-2xl border-t-8 border-secondary-color">
+                    <h3 class="text-3xl font-extrabold mb-2 text-secondary-color">CORPORATE</h3>
+                    <p class="text-gray-300 text-sm mb-6">Maximum custom strategy for high-level capital.</p>
+
+                    <div class="text-4xl font-bold mb-4 text-white">
+                        $250k - $500k+ <span class="text-lg font-normal block text-gray-400">Fund Allocation</span>
+                    </div>
+                    
+                    <ul class="space-y-3 text-gray-300 mb-6">
+                        <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Risk Adjustment: $\approx 5-7\%$ per trade</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Priority Support & Manual Review</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Access to Full Securities List</li>
+                    </ul>
+                    <a href="#contact" class="block text-center py-3 px-6 rounded-xl font-semibold text-white bg-secondary-color hover:bg-violet-600 transition duration-300">Contact Sales</a>
+                </div>
+
+            </div>
+            
+            <p class="text-center text-sm text-gray-200 mt-8 italic">
+                Note: Estimated profit gains (52-65%) are based on past performance with managed risk. <strong>There is no guarantee of future profit.</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 5: Getting Started (Updated for Broker Flexibility) -->
+    <section id="getting-started" class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">3 Simple Steps to Get <span class="accent-text">Started</span></h2>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 md:space-x-8">
+                
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center text-center max-w-xs">
+                    <div class="w-20 h-20 flex items-center justify-center gradient-bg rounded-full text-4xl font-extrabold mb-4 border-4 border-white shadow-2xl">
+                        1
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Choose Your API-Enabled Broker</h3>
+                    <p class="text-gray-400">Open your account and complete KYC with your chosen brokerage platform (e.g., Capital.com, Moomoo SG/HK, or others).</p>
+                </div>
+
+                <!-- Arrow Icon -->
+                <div class="hidden md:block text-5xl accent-text">➡️</div>
+                <div class="md:hidden text-5xl accent-text">⬇️</div>
+
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center text-center max-w-xs">
+                    <div class="w-20 h-20 flex items-center justify-center gradient-bg rounded-full text-4xl font-extrabold mb-4 border-4 border-white shadow-2xl">
+                        2
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Connect the API</h3>
+                    <p class="text-gray-400">Provide account API key or login details to our admin team for secure integration setup and configuration.</p>
+                </div>
+
+                <!-- Arrow Icon -->
+                <div class="hidden md:block text-5xl accent-text">➡️</div>
+                <div class="md:hidden text-5xl accent-text">⬇️</div>
+
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center text-center max-w-xs">
+                    <div class="w-20 h-20 flex items-center justify-center gradient-bg rounded-full text-4xl font-extrabold mb-4 border-4 border-white shadow-2xl">
+                        3
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Deposit & Auto-Trade</h3>
+                    <p class="text-gray-400">Deposit your starting capital into your brokerage account and let the AI automatically execute trades.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer & Contact -->
+    <footer id="contact" class="bg-gray-900 py-12 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Start?</h2>
+            <p class="text-lg text-gray-300 mb-8">The best time to invest was yesterday. The next best is now!</p>
+
+            <div class="flex flex-col md:flex-row justify-center space-y-6 md:space-y-0 md:space-x-12 mb-8">
+                
+                <!-- Email -->
+                <div class="flex items-center justify-center">
+                    <span class="text-2xl mr-3 accent-text">📧</span>
+                    <div>
+                        <p class="text-sm text-gray-400">Email Support</p>
+                        <a href="mailto:support@evevo-tech.com" class="text-white hover:accent-text font-semibold transition duration-300">support@evevo-tech.com</a>
+                    </div>
+                </div>
+
+                <!-- WhatsApp 1 (UAE) -->
+                <div class="flex items-center justify-center">
+                    <span class="text-2xl mr-3 accent-text">💬</span>
+                    <div>
+                        <p class="text-sm text-gray-400">WhatsApp (UAE)</p>
+                        <a href="https://wa.me/971582976242" target="_blank" class="text-white hover:accent-text font-semibold transition duration-300">(971) 582976242</a>
+                    </div>
+                </div>
+
+                <!-- WhatsApp 2 (MY) -->
+                <div class="flex items-center justify-center">
+                    <span class="text-2xl mr-3 accent-text">💬</span>
+                    <div>
+                        <p class="text-sm text-gray-400">WhatsApp (MY)</p>
+                        <a href="https://wa.me/60134610868" target="_blank" class="text-white hover:accent-text font-semibold transition duration-300">+60 13461 0868</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="border-gray-700 my-8">
+
+            <p class="text-xs text-gray-500 max-w-3xl mx-auto">
+                PiTrade API is a <strong>technology provider</strong>, not a brokerage or fund manager. Your capital remains solely within your chosen API-enabled brokerage account. No financial advice or fund management is provided by the software provider. Subscription is based on the terms and conditions in the User Agreement. Performance is optimized at managed risk levels, and results are not guaranteed. Compatibility includes platforms like Capital.com, Moomoo SG/HK, and others (Note: Moomoo MY is currently not supported).
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Global rate control: update data every 20 frames (roughly 3 times per second at 60 FPS)
+        const TICK_RATE = 20; 
+
+        // --- Trading Chart Class for Independent Animation ---
+        
+        class TradingChart {
+            constructor(id, name, color, amplitude, base) {
+                this.canvas = document.getElementById(id);
+                this.priceDisplay = document.getElementById(`price-${id}`);
+                this.ctx = this.canvas.getContext('2d');
+                this.name = name;
+                this.color = color;
+                this.amplitude = amplitude; // Volatility factor
+                this.base = base; // Realistic starting price
+                this.maxPoints = 80;
+                this.history = Array(this.maxPoints).fill(base);
+                this.price = base;
+                this.frameCount = Math.floor(Math.random() * TICK_RATE); // Start charts slightly out of phase
+
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                const container = this.canvas.parentElement;
+                // Set canvas size based on its container, accounting for card padding
+                this.canvas.width = container.clientWidth - 32; 
+                this.canvas.height = 100;
+                this.draw(); 
+            }
+
+            generateNewPoint() {
+                // Simulates movement: volatility + slight pull towards the base
+                const volatility = (Math.random() * 2 - 1) * this.amplitude * 0.5;
+                const meanReversion = (this.base - this.price) * 0.01; 
+
+                this.price += volatility + meanReversion;
+                
+                // Add a floor/ceiling to keep the simulation stable
+                if (this.price > this.base * 1.02) this.price = this.base * 1.02 - Math.random() * 0.1;
+                if (this.price < this.base * 0.98) this.price = this.base * 0.98 + Math.random() * 0.1;
+
+                this.history.push(this.price);
+                if (this.history.length > this.maxPoints) {
+                    this.history.shift();
+                }
+            }
+
+            draw() {
+                if (!this.ctx) return;
+
+                const width = this.canvas.width;
+                const height = this.canvas.height;
+                const padding = 5;
+                const chartHeight = height - padding * 2;
+                const chartWidth = width - padding * 2;
+                const xStep = chartWidth / (this.maxPoints - 1);
+
+                // Clear canvas
+                this.ctx.fillStyle = 'transparent';
+                this.ctx.clearRect(0, 0, width, height);
+
+                // Find min/max for dynamic scaling
+                const minPrice = Math.min(...this.history);
+                const maxPrice = Math.max(...this.history);
+                const priceRange = maxPrice - minPrice;
+                const scaleFactor = priceRange === 0 ? 1 : chartHeight / priceRange;
+
+                // Draw the price line
+                this.ctx.strokeStyle = this.color;
+                this.ctx.lineWidth = 2;
+                this.ctx.lineJoin = 'round';
+                this.ctx.beginPath();
+                
+                this.history.forEach((price, i) => {
+                    const normalizedY = (price - minPrice) * scaleFactor; 
+                    const y = height - padding - normalizedY; 
+                    const x = padding + i * xStep;
+
+                    if (i === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                });
+                this.ctx.stroke();
+
+                // Draw current price marker (dot on the right edge)
+                const finalY = height - padding - ((this.price - minPrice) * scaleFactor);
+                this.ctx.fillStyle = this.color;
+                this.ctx.beginPath();
+                this.ctx.arc(width - padding, finalY, 3, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                // Update price display text
+                this.priceDisplay.textContent = this.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                
+                // Change color based on last movement
+                const lastChange = this.history[this.history.length - 1] - this.history[this.history.length - 2];
+                
+                // Reset color if movement is minimal
+                this.priceDisplay.style.color = this.color; 
+                this.priceDisplay.classList.remove('text-green-400', 'text-red-400');
+
+                if (lastChange > 0.05) {
+                    this.priceDisplay.classList.add('text-green-400');
+                } else if (lastChange < -0.05) {
+                    this.priceDisplay.classList.add('text-red-400');
+                } else {
+                    // Re-apply the initial color if no major change
+                    this.priceDisplay.style.color = this.color; 
+                }
+            }
+
+            update() {
+                // Only generate a new price point every TICK_RATE (e.g., 20) frames
+                if (this.frameCount % TICK_RATE === 0) {
+                    this.generateNewPoint();
+                }
+                
+                // Draw on every frame for a smooth sliding visual effect
+                this.draw();
+                this.frameCount++;
+            }
+        }
+        
+        // --- Initialization ---
+
+        const assetConfigs = [
+            { id: 'chart-gold', name: 'Gold (XAU)', color: '#FFD700', amplitude: 0.5, base: 1950.00 },
+            { id: 'chart-nasdaq', name: 'Nasdaq 100', color: '#4ADE80', amplitude: 1.2, base: 15500.00 },
+            { id: 'chart-sp500', name: 'S&P 500', color: '#3B82F6', amplitude: 0.9, base: 5200.00 },
+            { id: 'chart-dowjones', name: 'Dow Jones', color: '#8B5CF6', amplitude: 0.7, base: 38500.00 },
+            { id: 'chart-japan', name: 'Japan Index', color: '#F87171', amplitude: 0.8, base: 39800.00 },
+            { id: 'chart-german', name: 'German Index (DAX)', color: '#7DD3FC', amplitude: 1.1, base: 18000.00 },
+            { id: 'chart-bitcoin', name: 'Bitcoin (BTC)', color: '#F97316', amplitude: 1.5, base: 65000.00 }
+        ];
+
+        let tradingCharts = [];
+        let animationRunning = true;
+
+        function initializeCharts() {
+            tradingCharts = assetConfigs.map(config => {
+                return new TradingChart(config.id, config.name, config.color, config.amplitude, config.base);
+            });
+            tradingCharts.forEach(chart => chart.resize());
+        }
+
+        function animateChart() {
+            if (!animationRunning) return;
+
+            // Update all chart instances independently
+            tradingCharts.forEach(chart => chart.update());
+            
+            requestAnimationFrame(animateChart);
+        }
+        
+        window.onload = function () {
+            initializeCharts();
+            animateChart();
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                animationRunning = false;
+            } else {
+                animationRunning = true;
+                animateChart(); // Resume animation
+            }
+        });
+    </script>
+
+</body>
+</html>
