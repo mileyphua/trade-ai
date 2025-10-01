@@ -56,7 +56,8 @@
         /* Ensure all canvases adapt to the card size */
         .chart-card canvas {
             width: 100%;
-            height: 100px; /* Fixed height for consistent look */
+            /* Increased height for better visibility on mobile devices */
+            height: 150px; 
         }
     </style>
 </head>
@@ -73,7 +74,7 @@
             PiTrade <span class="text-white">API</span>
         </h1>
         <p class="text-xl md:text-2xl font-light text-gray-100 max-w-4xl mx-auto mb-8">
-            Built by Data Scientists, for Professionals. <strong>Advanced Agentic AI Trading Bot</strong>.
+            Built by Data Scientists, for Professionals. <strong>Advanced Agentic AI Trading Bot API</strong>.
         </p>
         <p class="text-sm font-semibold italic text-gray-200 mt-6 max-w-3xl mx-auto">
             Our technology provides AI-powered, self-execution algorithms to optimize trading signals in real-time.
@@ -281,12 +282,12 @@
                     <p class="text-gray-300 text-sm mb-6">Start your journey with managed trial parameters.</p>
                     
                     <div class="text-4xl font-bold mb-4 text-white">
-                        10k - 50k <span class="text-lg font-normal block text-gray-400">Fund Allocation</span>
+                        $10k - $50k <span class="text-lg font-normal block text-gray-400">Fund Allocation</span>
                     </div>
 
                     <ul class="space-y-3 text-gray-300 mb-6">
-                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> 1-Month Trial Period (10k)</li>
-                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> Risk Adjustment: approx 3-5% per trade</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> 1-Month Trial Period ($10k)</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> Risk Adjustment: $\approx 3-5\%$ per trade</li>
                         <li class="flex items-center"><span class="text-xl mr-3 accent-text">✅</span> Weekly Trading Summary</li>
                     </ul>
                     <a href="#contact" class="block text-center py-3 px-6 rounded-xl font-semibold text-white bg-primary-color hover:bg-pink-600 transition duration-300">Learn More</a>
@@ -298,11 +299,11 @@
                     <p class="text-gray-300 text-sm mb-6">For seasoned individuals seeking optimal performance.</p>
                     
                     <div class="text-5xl font-extrabold mb-4 text-white">
-                        50k - 250k <span class="text-xl font-normal block text-gray-400">Fund Allocation</span>
+                        $50k - $250k <span class="text-xl font-normal block text-gray-400">Fund Allocation</span>
                     </div>
 
                     <ul class="space-y-3 text-gray-300 mb-6">
-                        <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Risk Adjustment: approx 5% per trade</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Risk Adjustment: $\approx 5\%$ per trade</li>
                         <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Weekly Profit-Share Payout</li>
                         <li class="flex items-center"><span class="text-xl mr-3 text-yellow-400">⭐</span> Access to Full Securities List</li>
                     </ul>
@@ -315,11 +316,11 @@
                     <p class="text-gray-300 text-sm mb-6">Maximum custom strategy for high-level capital.</p>
 
                     <div class="text-4xl font-bold mb-4 text-white">
-                        250k - 500k+ <span class="text-lg font-normal block text-gray-400">Fund Allocation</span>
+                        $250k - $500k+ <span class="text-lg font-normal block text-gray-400">Fund Allocation</span>
                     </div>
                     
                     <ul class="space-y-3 text-gray-300 mb-6">
-                        <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Risk Adjustment: approx 5-7% per trade</li>
+                        <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Risk Adjustment: $\approx 5-7\%$ per trade</li>
                         <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Priority Support & Manual Review</li>
                         <li class="flex items-center"><span class="text-xl mr-3 text-secondary-color">👑</span> Access to Full Securities List</li>
                     </ul>
@@ -396,6 +397,14 @@
                     </div>
                 </div>
 
+                <!-- WhatsApp 1 (UAE) -->
+                <div class="flex items-center justify-center">
+                    <span class="text-2xl mr-3 accent-text">💬</span>
+                    <div>
+                        <p class="text-sm text-gray-400">WhatsApp (UAE)</p>
+                        <a href="https://wa.me/971582976242" target="_blank" class="text-white hover:accent-text font-semibold transition duration-300">(971) 582976242</a>
+                    </div>
+                </div>
 
                 <!-- WhatsApp 2 (MY) -->
                 <div class="flex items-center justify-center">
@@ -425,7 +434,7 @@
         class TradingChart {
             constructor(id, name, color, amplitude, base) {
                 this.canvas = document.getElementById(id);
-                this.priceDisplay = document.getElementById(`price-{id}`);
+                this.priceDisplay = document.getElementById(`price-${id}`);
                 this.ctx = this.canvas.getContext('2d');
                 this.name = name;
                 this.color = color;
@@ -444,7 +453,8 @@
                 const container = this.canvas.parentElement;
                 // Set canvas size based on its container, accounting for card padding
                 this.canvas.width = container.clientWidth - 32; 
-                this.canvas.height = 100;
+                // Increased height for better visibility on small screens
+                this.canvas.height = 150; 
                 this.draw(); 
             }
 
